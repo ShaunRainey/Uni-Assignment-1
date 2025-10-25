@@ -98,15 +98,16 @@ def main():
         print("3) Quit")
         choice = input("Choose (1/2/3): ").strip()
 
-        if choice == "1":
-            AddItem()
-        elif choice == "2":
-            listItems()
-        elif choice == "3":
-            print("Goodbye!")
-            break
-        else:
-            print("Unknown option.\n")
+        match choice:
+            case "1":
+                AddItem()
+            case "2":
+                listItems()
+            case "3":
+                print("Goodbye!")
+                break
+            case default:
+                print("Unknown option.\n")
 
 if __name__ == "__main__":
     main()
