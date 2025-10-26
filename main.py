@@ -9,27 +9,25 @@ fields = ["itemId","itemName", "itemQuantity", "unitType", "category", "dateUpda
 
 
 
-def checkCSV():
+def checkCSV(): #checks to see if file exists, if not then it creates it
     os.makedirs(os.path.dirname(CSV_Path) or ".", exist_ok=True)
     if not os.path.exists(CSV_Path):
         print("Creating CSV storage file ...")
         with open(CSV_Path, "w", newline="", encoding="utf-8") as f:  #"with" automatically closes an opened file when appropriate 
             csv.writer(f).writerow(fields)
             (print("CSV storage file creation successful \n"))
-    else:
-        print("CSV file present \n")
 
 
 
-def readAll():
+def readAll(): #loads the contents of csv file into a variable for use
     checkCSV()
     with open(CSV_Path, "r", newline="", encoding="utf-8") as f:
         return list(csv.DictReader(f))
     
 
 
-def nextItemId():
-    rows = readAll()
+def nextItemId(): #Allows Id to incremenet with each addition
+    rows = readAll() 
     maxId = 0
     for r in rows:
         try:
@@ -68,17 +66,25 @@ def AddItem():
     appendRow(row)
     print("Item added \n")
 
+def tabulateData(data):
+    try: #this is to protect against an empty csv breaking the code
+        col_alignment = ["center"] * len(data[0])
+        print(tabulate(data, headers="keys", tablefmt="grid", colalign=col_alignment) + "\n")
+    except:
+        print("Currently no items held \n")
+
 
 
 def listItems():
     print("\n --- All Items --- \n")
-    rows = readAll()
-    try: #this is to protect against an empty csv breaking the code
-        col_alignment = ["center"] * len(rows[0])
-        print(tabulate(rows, headers="keys", tablefmt="grid", colalign=col_alignment) + "\n")
-    except:
-        print("Currently no items held \n")
+    rows = readAll() #index of an item is at itemId - 1, rows is a list of dictionaries
+    tabulateData(rows)
 
+def searchById():
+    searchId = int(input("Please enter the desired itemId: "))
+    rows = readAll()
+    rowById = rows[searchId - 1]
+    tabulateData([rowById]) #tabulateData expects a list
 
 def main():
     checkCSV()
@@ -87,7 +93,7 @@ def main():
         print("1) Add item")
         print("2) List items")
         print("3) Quit \n")
-        choice = input("Choose (1/2/3): ").strip()
+        choice = input("Choose (1/2/3/4): ").strip()
 
         match choice:
             case "1":
@@ -97,6 +103,8 @@ def main():
             case "3":
                 print("Goodbye!")
                 break
+            case "4":
+                searchById()
             case _: #_ is the "default" word for python
                 print("Enter a valid number.\n")
 
