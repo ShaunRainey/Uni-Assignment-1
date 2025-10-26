@@ -1,0 +1,10 @@
+itemId,itemName,itemQuantity,unitType,category,dateUpdated,updatedBy
+1,Blue Pen,64,Pieces,Pens,2025-10-26,Shaun
+2,Black Pen,48,Pieces,Pens,2025-10-26,Shaun
+3,Red Pen,4,Pieces,Pens,2025-10-26,Shaun
+4,A4 notepad,100,Pieces,Books,2025-10-26,Steve
+5,A5 diary,100,Pieces,Books,2025-10-26,Steve
+6,Eraser,50,Pieces,Stationery,2025-10-26,notShaun
+7,30cm Ruler,50,Pieces,Stationery,2025-10-26,notShaun
+8,Calculator,20,Pieces,Stationery,2025-10-26,notShaun
+9,Envelope,100,Pieces,Stationery,2025-10-26,notShaun
