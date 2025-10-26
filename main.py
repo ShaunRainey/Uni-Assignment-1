@@ -1,6 +1,8 @@
 import csv
 import os
 from datetime import datetime
+from item import InventoryItem
+from tabulate import tabulate #python -m pip install tabulate
 
 CSV_Path = os.path.join(os.path.dirname(__file__), "inventory.csv")
 fields = ["itemId","itemName", "itemQuantity", "unitType", "category", "dateUpdated", "updatedBy"]
@@ -10,12 +12,12 @@ fields = ["itemId","itemName", "itemQuantity", "unitType", "category", "dateUpda
 def checkCSV():
     os.makedirs(os.path.dirname(CSV_Path) or ".", exist_ok=True)
     if not os.path.exists(CSV_Path):
-        print("Creating CSV file ...")
-        with open(CSV_Path, "w", newline="", encoding="utf-8") as f:
+        print("Creating CSV storage file ...")
+        with open(CSV_Path, "w", newline="", encoding="utf-8") as f:  #"with" automatically closes an opened file when appropriate 
             csv.writer(f).writerow(fields)
-            (print("CSV file creation successful"))
+            (print("CSV storage file creation successful \n"))
     else:
-        print("CSV file present")
+        print("CSV file present \n")
 
 
 
@@ -40,54 +42,43 @@ def nextItemId():
 
 def appendRow(row):
     checkCSV()
-    with open(CSV_Path, "a", newline="", encoding="utf-8") as f:
+    with open(CSV_Path, "a", newline="", encoding="utf-8") as f: 
         w = csv.DictWriter(f, fieldnames=fields)
         w.writerow(row)
     
-
-
-def AddItem():
+def createItemObject():
+    itemId = nextItemId()
     name = input("Item name: ").strip()
     quantity = input("Quantity: ").strip()
     unit = input("Unit: ").strip()
     category = input("Category: ").strip()
     addedBy = input("Your name: ").strip()
+    date = datetime.now().strftime("%Y-%m-%d")
 
-    try:
-        qty = int(quantity)
-        if qty <= 0:
-            print("Quantity must be greater than 0. \n")
-            return
-    except ValueError: 
-        print("Quantity must be a number")
-        return
+    newItem = InventoryItem(itemId, name, quantity, unit, category, date, addedBy)
 
-    row = {
-        "itemId": nextItemId(),
-        "itemName": name,
-        "itemQuantity": str(qty),
-        "unitType": unit,
-        "category": category,
-        "dateUpdated": datetime.now().strftime("%Y-%m-%d"),
-        "updatedBy": addedBy,
-        }
+    print("Item Created \n")
+    print(newItem.to_dict() + "\n")
+
+    return newItem.to_dict()
+
+
+def AddItem():
+    row = createItemObject()
     appendRow(row)
-    print("Item added")
+    print("Item added \n")
 
 
 
 def listItems():
-    print("\n --- All Items ---")
+    print("\n --- All Items --- \n")
     rows = readAll()
-    if not rows:
-        print("(no items)\n")
-        return
-    
-    print(f"{'itemId':>3} {'itemName':<20} {'itemQuantity':>4} {'unitType':<4} {'category':<20} {'dateUpdated'} {'Added By':<12}")
+    try: #this is to protect against an empty csv breaking the code
+        col_alignment = ["center"] * len(rows[0])
+        print(tabulate(rows, headers="keys", tablefmt="grid", colalign=col_alignment) + "\n")
+    except:
+        print("Currently no items held \n")
 
-    for r in rows:
-        print(f"{r.get('itemId',''):>3} {r.get('itemName',''):<20} {r.get('itemQuantity',''):>4} {r.get('unitType',''):<4} {r.get('category',''):<20} {r.get('dateUpdated','')} {r.get('updatedBy',''):<12}")
-        print()
 
 def main():
     checkCSV()
@@ -95,7 +86,7 @@ def main():
         print("Basic Inventory")
         print("1) Add item")
         print("2) List items")
-        print("3) Quit")
+        print("3) Quit \n")
         choice = input("Choose (1/2/3): ").strip()
 
         match choice:
@@ -106,8 +97,8 @@ def main():
             case "3":
                 print("Goodbye!")
                 break
-            case default:
-                print("Unknown option.\n")
+            case _: #_ is the "default" word for python
+                print("Enter a valid number.\n")
 
 if __name__ == "__main__":
     main()
