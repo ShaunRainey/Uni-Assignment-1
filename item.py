@@ -4,11 +4,8 @@ class InventoryItem:
         inventoryItem.itemId = str(itemId) # no validation needed, the programme is in control of this value
 
         if not itemName.strip(): #ensures name is truthy
-            raise ValueError("Please enter a valid string")
-            
+            raise ValueError("Please enter a valid string")  
         inventoryItem.itemName = itemName.strip()
-
-
 
         try:
             quantity = int(itemQuantity) #check to see if the value is numeric. If this fails, move to except
@@ -18,27 +15,17 @@ class InventoryItem:
         except ValueError: 
             print("Quantity must be a whole number")
             return
-
         inventoryItem.itemQuantity = itemQuantity.strip()
 
-
-
         if not unitType.strip(): #ensures unitType is truthy
-            raise ValueError("Please enter a valid string")
-            
+            raise ValueError("Please enter a valid string")  
         inventoryItem.unitType = unitType.strip()
-
 
         if not category.strip():
             raise ValueError("Please enter a valid string")
-            
         inventoryItem.category = category.strip()
 
-
-
         inventoryItem.dateUpdated = dateUpdated
-
-
 
         inventoryItem.updatedBy = updatedBy
 
@@ -55,22 +42,3 @@ class InventoryItem:
             "dateUpdated" : inventoryItem.dateUpdated,
             "updatedBy"   : inventoryItem.updatedBy
         }
-
-
-
-
-
-
-
-
-
-
-item1 = InventoryItem(1,"Black pen","       5","pieces","pens","25-10-2025","Shaun")
-item2 = InventoryItem(2,"Blue pen","65","pieces","pens","25-10-2025","Steve")
-item3 = InventoryItem(3,"Red pen","42","pieces","pens","25-10-2025","Sarah")
-
-print(item1)
-#print(item2)
-#print(item3)
-
-print(item1.to_dict())
