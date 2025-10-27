@@ -4,25 +4,23 @@ class InventoryItem:
         self.itemId = str(itemId) # no validation needed, the programme is in control of this value
 
         if not itemName.strip(): #ensures name is truthy
-            raise ValueError("Please enter a valid string")  
+            raise ValueError("Please enter a valid string for item name \n")  
         self.itemName = itemName.strip()
 
         try:
-            quantity = int(itemQuantity) #check to see if the value is numeric. If this fails, move to except
-            if quantity <= 0:
-                print("Quantity must be greater than 0. \n")
-                return
-        except ValueError: 
-            print("Quantity must be a whole number")
-            return
+            q = int(itemQuantity)
+            if q <= 0:
+                raise ValueError("Quantity must be 0 or greater \n")
+        except ValueError:
+            raise ValueError("\n Quantity must be a whole number \n")
         self.itemQuantity = itemQuantity.strip()
 
         if not unitType.strip(): #ensures unitType is truthy
-            raise ValueError("Please enter a valid string")  
+            raise ValueError("Please enter a valid string for unit type \n")  
         self.unitType = unitType.strip()
 
         if not category.strip():
-            raise ValueError("Please enter a valid string")
+            raise ValueError("Please enter a valid string for category \n")
         self.category = category.strip()
 
         self.dateUpdated = dateUpdated
