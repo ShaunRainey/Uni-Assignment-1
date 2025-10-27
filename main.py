@@ -4,24 +4,27 @@ from datetime import datetime
 from item import InventoryItem
 from tabulate import tabulate #python -m pip install tabulate
 
-CSV_Path = os.path.join(os.path.dirname(__file__), "inventory.csv")
-fields = ["itemId","itemName", "itemQuantity", "unitType", "category", "dateUpdated", "updatedBy"]
+CSV_Inventory_Path = os.path.join(os.path.dirname(__file__), "inventory.csv")
+CSV_User_Path      = os.path.join(os.path.dirname(__file__), 'users.csv')
 
-def checkCSV(): #checks to see if file exists, if not then it creates it
-    os.makedirs(os.path.dirname(CSV_Path) or ".", exist_ok=True)
-    if not os.path.exists(CSV_Path):
+inventoryFields = ["itemId","itemName", "itemQuantity", "unitType", "category", "dateUpdated", "updatedBy"]
+userFields      = ["userId", "userName", "password", "role"]
+
+def checkCSV(path, headers): #checks to see if file exists, if not then it creates it
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    if not os.path.exists(path):
         print("Creating CSV storage file ...")
-        with open(CSV_Path, "w", newline="", encoding="utf-8") as f:  #"with" automatically closes an opened file when appropriate 
-            csv.writer(f).writerow(fields)
+        with open(path, "w",newline="", encoding="utf-8") as f:
+            csv.writer(f).writerow(headers)
             (print("CSV storage file creation successful \n"))
-
-def readAll(): #loads the contents of csv file into a variable for use
-    checkCSV()
-    with open(CSV_Path, "r", newline="", encoding="utf-8") as f:
+    
+def readAll(path, headers): #loads the contents of csv file into a variable for use
+    checkCSV(path, headers)
+    with open(path, "r", newline="", encoding="utf-8") as f:
         return list(csv.DictReader(f))
 
-def nextItemId(): #Allows Id to incremenet with each addition
-    rows = readAll() 
+def nextItemId(path, headers): #Allows Id to incremenet with each addition
+    rows = readAll(path, headers) 
     maxId = 0
     for r in rows:
         try:
@@ -33,15 +36,15 @@ def nextItemId(): #Allows Id to incremenet with each addition
 def promptInput(message): #helper function to avoid writing .strip() over and over
     return input(message).strip()
 
-def appendRow(row): #Adds a new entry to the bottom of the CSV file
-    checkCSV()
-    with open(CSV_Path, "a", newline="", encoding="utf-8") as f: 
-        w = csv.DictWriter(f, fieldnames=fields)
+def appendRow(row, path, headers): #Adds a new entry to the bottom of the CSV file
+    checkCSV(path, headers)
+    with open(path, "a", newline="", encoding="utf-8") as f: 
+        w = csv.DictWriter(f, fieldnames=inventoryFields)
         w.writerow(row)
     
 def createItemObject(): #Creates an instance of the InventoryItem class, giving access to class methods
     while True:
-        itemId = nextItemId()
+        itemId = nextItemId(CSV_Inventory_Path, inventoryFields)
         name = promptInput("Item name: ")
         quantity = promptInput("Quantity: ")
         unit = promptInput("Unit: ")
@@ -60,9 +63,9 @@ def createItemObject(): #Creates an instance of the InventoryItem class, giving 
         except ValueError as e:
             print(f"\n Item creation failed: {e}")
 
-def AddItem():
+def AddItem(path, headers):
     row = createItemObject()
-    appendRow(row)
+    appendRow(row, path, headers)
     print("Item added \n")
 
 def tabulateData(data):
@@ -72,25 +75,37 @@ def tabulateData(data):
     except:
         print("Currently no items held \n")
 
-def listItems():
+def listItems(path, headers):
     print("\n --- All Items --- \n")
-    rows = readAll() #index of an item is at itemId - 1, rows is a list of dictionaries
+    rows = readAll(path, headers)
     tabulateData(rows)
 
-def searchById(): #This currently looks for the item in a specified position, NOT its ID number
-    searchId = int(input("Please enter the desired itemId: "))
-    rows = readAll()
-    rowById = rows[searchId - 1]
-    tabulateData([rowById]) #tabulateData expects a list
+def searchItems(path, headers):
+    print("\n --- Search Items --- \n")
+    term = promptInput("Enter search term (itemName or updatedBy): ").lower()
+    if not term:
+        print("Empty search term \n")
+        return
 
-def overWriteCSV(rows):
-    with open(CSV_Path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fields)
+    rows = readAll(path, headers)
+    results = []
+    for r in rows:
+        combined = (r.get('itemName','') + ' ' + r.get('updatedBy','')).lower()
+        if term in combined:
+            results.append(r)
+    if not results:
+        print ("No matches found")
+        return
+    tabulateData(results)
+
+def overWriteCSV(rows, path, headers):
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=headers)
         writer.writeheader()
         writer.writerows(rows)
 
-def updateItem():
-    rows = readAll()
+def updateItem(path, headers):
+    rows = readAll(path, headers)
     tabulateData(rows)
     changeId = promptInput("Please specify the ID of the item you would like to change: ")
 
@@ -129,14 +144,14 @@ def updateItem():
                 print("New record:")
                 tabulateData([r])
 
-                overWriteCSV(rows)
+                overWriteCSV(rows, path, headers)
                 print("CSV file updated successfully \n")
             break
     else:
         print("\n Invalid ID \n ")    
 
-def deleteEntry():
-    rows = readAll()
+def deleteEntry(path, headers):
+    rows = readAll(path, headers)
     tabulateData(rows)
     changeId = promptInput("Please specify the ID of the item you would like to delete: ")
 
@@ -146,14 +161,16 @@ def deleteEntry():
             confirm = promptInput("Are you sure you want to delete this entry? Enter 'y' to confirm.\n")
             if confirm == 'y':
                 rows.pop(rows.index(r)) #pop removes based on an index value
-                overWriteCSV(rows)
+                overWriteCSV(rows, path, headers)
                 print("Item deleted \n")
             else:
                 print("Delete aborted \n")
     
 
 def main():
-    checkCSV()
+    checkCSV(CSV_Inventory_Path, inventoryFields)
+    checkCSV(CSV_User_Path, userFields)
+
     while True:
         print("\n What would you like to do? \n")
         print("1) List items")
@@ -166,15 +183,15 @@ def main():
 
         match choice:
             case "1":
-                listItems()
+                listItems(CSV_Inventory_Path, inventoryFields)
             case "2":
-                AddItem()
+                AddItem(CSV_Inventory_Path, inventoryFields)
             case "3":
-                updateItem()
+                updateItem(CSV_Inventory_Path, inventoryFields)
             case "4":
-                deleteEntry()
+                deleteEntry(CSV_Inventory_Path, inventoryFields)
             case "5":
-                searchById()
+                searchItems(CSV_Inventory_Path, inventoryFields)
             case "6":
                 print("Goodbye!")
                 break
