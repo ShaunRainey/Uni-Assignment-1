@@ -11,6 +11,8 @@ CSV_User_Path      = os.path.join(os.path.dirname(__file__), 'users.csv')
 inventoryFields = ["itemId","itemName", "itemQuantity", "unitType", "category", "dateUpdated", "updatedBy"]
 userFields      = ["userId", "userName", "password", "role"]
 
+currentlyLoggedIn = None
+
 def checkCSV(path, headers): #checks to see if file exists, if not then it creates it
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     if not os.path.exists(path):
@@ -268,49 +270,118 @@ def deleteEntry(path, headers):
                 overWriteCSV(rows, path, headers)
                 print("User deleted \n")
             else:
-                print("Delete aborted \n")
-    
+                print("Delete aborted \n") 
+
+def authenticate(username, password):
+    rows = readAll(CSV_User_Path, userFields)
+    for r in rows:
+        if r.get("userName") == username and r.get("password") == password:
+            return User(r["userId"], r["userName"], r["password"], r["role"])
+        
+    return None   
 
 def main():
     checkCSV(CSV_Inventory_Path, inventoryFields)
     checkCSV(CSV_User_Path, userFields)
+    currentlyLoggedIn = None
+
+    while currentlyLoggedIn is None:
+        username = promptInput("Enter username: ")
+        password = promptInput("Enter password: ")
+
+        user = authenticate(username, password)
+        if user:
+            currentlyLoggedIn = user
+            print(f"Login successful. Welcome {user.userName}")
+            break
+        else:
+            print("Invalid login attempt, please try again \n")
+
 
     while True:
-        print("\n What would you like to do? \n")
-        print("1) List Entries")
-        print("2) Add item")
-        print("3) Update items")
-        print("4) Delete items")
-        print("5) Search for an item")
-        print("6) Quit")
-        choice = input("\n Choose (1/2/3/4/5/6): ").strip()
 
-        match choice:
-            case "1":
-                listEntries(CSV_Inventory_Path, inventoryFields)
-            case "2":
-                AddItem(CSV_Inventory_Path, inventoryFields)
-            case "3":
-                updateItem(CSV_Inventory_Path, inventoryFields)
-            case "4":
-                deleteEntry(CSV_Inventory_Path, inventoryFields)
-            case "5":
-                searchItems(CSV_Inventory_Path, inventoryFields)
-            case "6":
-                print("Goodbye!")
-                break
-            case "7":
-                AddUser(CSV_User_Path, userFields)
-            case "8":
-                listEntries(CSV_User_Path, userFields)
-            case "9":
-                deleteEntry(CSV_User_Path, userFields)
-            case "10":
-                searchUsers(CSV_User_Path, userFields)
-            case "11":
-                updateUser(CSV_User_Path, userFields)
-            case _: #_ is the "default" word for python
-                print("Enter a valid number.\n")
+        match currentlyLoggedIn.role:
+            case "basic":
+                print("\n What would you like to do? \n")
+                print("1) List Entries")
+                print("2) Search for an item")
+                print("3) Quit")
+                choice = input("\n Choose (1/2/3): ").strip()
+                match choice:
+                    case "1":
+                        listEntries(CSV_Inventory_Path, inventoryFields)
+                    case "2":
+                        searchItems(CSV_Inventory_Path, inventoryFields)
+                    case "3":
+                        print("Goodbye!")
+                        currentlyLoggedIn = None
+                        break
+                    case _:
+                        print("Invalid choice")
+            case "write":
+                print("\n What would you like to do? \n")
+                print("1) List Entries")
+                print("2) Search for an item")
+                print("3) Add item")
+                print("4) Update items")
+                print("5) Quit")
+                choice = input("\n Choose (1/2/3/4/5): ").strip()
+                match choice:
+                    case "1":
+                        listEntries(CSV_Inventory_Path, inventoryFields)
+                    case "2":
+                        searchItems(CSV_Inventory_Path, inventoryFields)
+                    case "3":
+                        AddItem(CSV_Inventory_Path, inventoryFields)
+                    case "4":
+                        updateItem(CSV_Inventory_Path, inventoryFields)
+                    case "5":
+                        print("Goodbye!")
+                        currentlyLoggedIn = None
+                        break
+                    case _:
+                        print("Invalid choice")
+            case "admin":
+                print("\n What would you like to do? \n")
+                print("1)  List Entries")
+                print("2)  Search for an item")
+                print("3)  Add item")
+                print("4)  Update items")
+                print("5)  Delete items")
+                print("6)  List users")
+                print("7)  Search users")
+                print("8)  Create users")
+                print("9)  Update users")
+                print("10) Delete users")
+                print("11) Quit")
+                choice = input("\n Choose (1/2/3/4/5/6/7/8/9/10/11): ").strip()
+                match choice:
+                    case "1":
+                        listEntries(CSV_Inventory_Path, inventoryFields)
+                    case "2":
+                        searchItems(CSV_Inventory_Path, inventoryFields)
+                    case "3":
+                        AddItem(CSV_Inventory_Path, inventoryFields)
+                    case "4":
+                        updateItem(CSV_Inventory_Path, inventoryFields)
+                    case "5":
+                        deleteEntry(CSV_Inventory_Path, inventoryFields)
+                    case "6":
+                        listEntries(CSV_User_Path, userFields)
+                    case "7":
+                        searchUsers(CSV_User_Path, userFields)
+                    case "8":
+                        AddUser(CSV_User_Path, userFields)
+                    case "9":
+                        updateUser(CSV_User_Path, userFields)
+                    case "10":
+                        deleteEntry(CSV_User_Path, userFields)
+                    case "11":
+                        print("Goodbye!")
+                        currentlyLoggedIn = None
+                        break
+                    case _:
+                        print("Invalid choice")
 
 if __name__ == "__main__":
     main()
