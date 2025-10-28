@@ -1,1 +1,16 @@
-itemId,name,quantity,unitType,category,location,reorderLevel,reorderQuantity,dateUpdated,updatedBy
+itemId,itemName,itemQuantity,unitType,category,dateUpdated,updatedBy
+1,Blue Pen,64,Pieces,Pens,2025-10-25,Shaun
+2,Black Pen,48,Pieces,Pens,2025-10-25,Shaun
+3,Red Pen,4,Pieces,Pens,2025-10-25,Shaun
+4,A4 Notepad,100,Pieces,Books,2025-10-26,Steve
+5,A5 diary,100,Pieces,Books,2025-10-26,Steve
+6,Eraser,50,Pieces,Stationery,2025-10-25,notShaun
+7,30cm Ruler,50,Pieces,Stationery,2025-10-26,notShaun
+8,Calculator,20,Pieces,Stationery,2025-10-26,notShaun
+9,Envelope,100,Pieces,Stationery,2025-10-26,notShaun
+11,Staple,43454,rtgwerg,rgwr,2025-10-26,gwergwer
+12,Stapler,34,wegrwger,wergwer,2025-10-26,wergwerg
+13,Rainbow Paint,50,Litres,Shiggles,2025-10-26,Shaun
+15,45cm ruler,53456,pieces,ertherth,2025-10-27,ertherth
+16,Chips,1000,pieces,food,2025-10-28,FancySeagull
+17,wergwerg,2345234,gwergwer,wergwer,2025-10-28,Shaun
