@@ -27,18 +27,18 @@ class InventoryItem:
 
         self.updatedBy = updatedBy
 
-    def __str__(inventoryItem): #This method dictates what is printed if you just print the object
-        return f"{inventoryItem.itemId} {inventoryItem.itemName} {inventoryItem.itemQuantity} {inventoryItem.unitType} {inventoryItem.category} {inventoryItem.dateUpdated} {inventoryItem.updatedBy}"
+    def __str__(self): #This method dictates what is printed if you just print the object
+        return f"{self.itemId} {self.itemName} {self.itemQuantity} {self.unitType} {self.category} {self.dateUpdated} {self.updatedBy}"
     
-    def toDict(inventoryItem): #create a dictionary object from class properties
+    def toDict(self): #create a dictionary object from class properties
         return {
-            "itemId"      : inventoryItem.itemId,
-            "itemName"    : inventoryItem.itemName,
-            "itemQuantity": inventoryItem.itemQuantity,
-            "unitType"    : inventoryItem.unitType,
-            "category"    : inventoryItem.category,
-            "dateUpdated" : inventoryItem.dateUpdated,
-            "updatedBy"   : inventoryItem.updatedBy
+            "itemId"      : self.itemId,
+            "itemName"    : self.itemName,
+            "itemQuantity": self.itemQuantity,
+            "unitType"    : self.unitType,
+            "category"    : self.category,
+            "dateUpdated" : self.dateUpdated,
+            "updatedBy"   : self.updatedBy
         }
     
     def fromDict(cls, data): #cls = class. Effectively takes information and structures it to the class blueprint. Maintains all validation from the class
