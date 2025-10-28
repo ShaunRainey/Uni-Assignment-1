@@ -11,8 +11,6 @@ CSV_User_Path      = os.path.join(os.path.dirname(__file__), 'users.csv')
 inventoryFields = ["itemId","itemName", "itemQuantity", "unitType", "category", "dateUpdated", "updatedBy"]
 userFields      = ["userId", "userName", "password", "role"]
 
-currentlyLoggedIn = None
-
 def checkCSV(path, headers): #checks to see if file exists, if not then it creates it
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     if not os.path.exists(path):
@@ -52,14 +50,14 @@ def appendRow(row, path, headers): #Adds a new entry to the bottom of the CSV fi
         w = csv.DictWriter(f, fieldnames=headers)
         w.writerow(row)
     
-def createItemObject(): #Creates an instance of the InventoryItem class, giving access to class methods
+def createItemObject(user): #Creates an instance of the InventoryItem class, giving access to class methods
     while True:
         itemId   = nextItemId(CSV_Inventory_Path, inventoryFields)
         name     = promptInput("Item name: ")
         quantity = promptInput("Quantity: ")
         unit     = promptInput("Unit: ")
         category = promptInput("Category: ")
-        addedBy  = promptInput("Your name: ")
+        addedBy  = user.userName
         date     = datetime.now().strftime("%Y-%m-%d")
 
         try:
@@ -71,7 +69,7 @@ def createItemObject(): #Creates an instance of the InventoryItem class, giving 
             return newItem.toDict()
         
         except ValueError as e:
-            print(f"\n Item creation failed: {e}")
+            print(f"\n Item creation failed: \n {e}")
 
 def createUserObject(): #Creates an instance of the InventoryItem class, giving access to class methods
     while True:
@@ -91,8 +89,8 @@ def createUserObject(): #Creates an instance of the InventoryItem class, giving 
         except ValueError as e:
             print(f"\n Item creation failed: {e}")
 
-def AddItem(path, headers):
-    row = createItemObject()
+def AddItem(path, headers, user):
+    row = createItemObject(user)
     appendRow(row, path, headers)
     print("Item added \n")
 
@@ -155,7 +153,7 @@ def overWriteCSV(rows, path, headers):
         writer.writeheader()
         writer.writerows(rows)
 
-def updateItem(path, headers):
+def updateItem(path, headers, currentlyLoggedIn):
     rows = readAll(path, headers)
     tabulateData(rows)
     changeId = promptInput("Please specify the ID of the item you would like to change: ")
@@ -177,15 +175,19 @@ def updateItem(path, headers):
                     case "1":
                         r["itemName"] = promptInput("Please enter the new value: ")
                         r["dateUpdated"] = datetime.now().strftime("%Y-%m-%d")
+                        r["updatedBy"] = currentlyLoggedIn.userName
                     case "2":
                         r["itemQuantity"] = promptInput("Please enter the new value: ")
                         r["dateUpdated"] = datetime.now().strftime("%Y-%m-%d")
+                        r["updatedBy"] = currentlyLoggedIn.userName
                     case "3":
                         r["unitType"] = promptInput("Please enter the new value: ")
                         r["dateUpdated"] = datetime.now().strftime("%Y-%m-%d")
+                        r["updatedBy"] = currentlyLoggedIn.userName
                     case "4":
                         r["category"] = promptInput("Please enter the new value: ")
                         r["dateUpdated"] = datetime.now().strftime("%Y-%m-%d")
+                        r["updatedBy"] = currentlyLoggedIn.userName
                     case "5":
                         break
                     case _:
@@ -280,33 +282,32 @@ def authenticate(username, password):
         
     return None   
 
-def main():
-    checkCSV(CSV_Inventory_Path, inventoryFields)
-    checkCSV(CSV_User_Path, userFields)
-    currentlyLoggedIn = None
-
-    while currentlyLoggedIn is None:
+def loginLoop():
+    while True:
         username = promptInput("Enter username: ")
         password = promptInput("Enter password: ")
 
         user = authenticate(username, password)
         if user:
-            currentlyLoggedIn = user
-            print(f"Login successful. Welcome {user.userName}")
-            break
+            print(f"\n Login successful. Welcome {user.userName}")
+            return user
         else:
             print("Invalid login attempt, please try again \n")
 
 
+def main():
+    checkCSV(CSV_Inventory_Path, inventoryFields)
+    checkCSV(CSV_User_Path, userFields)
+    currentlyLoggedIn = loginLoop()
+
     while True:
 
         match currentlyLoggedIn.role:
-            case "basic":
-                print("\n What would you like to do? \n")
-                print("1) List Entries")
-                print("2) Search for an item")
-                print("3) Quit")
-                choice = input("\n Choose (1/2/3): ").strip()
+            
+            case "read":
+                currentlyLoggedIn.displayRights()
+                choice = promptInput("\n Choose (1/2/3): ")
+
                 match choice:
                     case "1":
                         listEntries(CSV_Inventory_Path, inventoryFields)
@@ -319,22 +320,18 @@ def main():
                     case _:
                         print("Invalid choice")
             case "write":
-                print("\n What would you like to do? \n")
-                print("1) List Entries")
-                print("2) Search for an item")
-                print("3) Add item")
-                print("4) Update items")
-                print("5) Quit")
-                choice = input("\n Choose (1/2/3/4/5): ").strip()
+                currentlyLoggedIn.displayRights()
+                choice = promptInput("\n Choose (1/2/3/4/5): ")
+
                 match choice:
                     case "1":
                         listEntries(CSV_Inventory_Path, inventoryFields)
                     case "2":
                         searchItems(CSV_Inventory_Path, inventoryFields)
                     case "3":
-                        AddItem(CSV_Inventory_Path, inventoryFields)
+                        AddItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
                     case "4":
-                        updateItem(CSV_Inventory_Path, inventoryFields)
+                        updateItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
                     case "5":
                         print("Goodbye!")
                         currentlyLoggedIn = None
@@ -342,28 +339,18 @@ def main():
                     case _:
                         print("Invalid choice")
             case "admin":
-                print("\n What would you like to do? \n")
-                print("1)  List Entries")
-                print("2)  Search for an item")
-                print("3)  Add item")
-                print("4)  Update items")
-                print("5)  Delete items")
-                print("6)  List users")
-                print("7)  Search users")
-                print("8)  Create users")
-                print("9)  Update users")
-                print("10) Delete users")
-                print("11) Quit")
-                choice = input("\n Choose (1/2/3/4/5/6/7/8/9/10/11): ").strip()
+                currentlyLoggedIn.displayRights()
+                choice = promptInput("\n Choose (1/2/3/4/5/6/7/8/9/10/11): ")
+
                 match choice:
                     case "1":
                         listEntries(CSV_Inventory_Path, inventoryFields)
                     case "2":
                         searchItems(CSV_Inventory_Path, inventoryFields)
                     case "3":
-                        AddItem(CSV_Inventory_Path, inventoryFields)
+                        AddItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
                     case "4":
-                        updateItem(CSV_Inventory_Path, inventoryFields)
+                        updateItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
                     case "5":
                         deleteEntry(CSV_Inventory_Path, inventoryFields)
                     case "6":
