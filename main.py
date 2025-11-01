@@ -275,6 +275,10 @@ def deleteEntry(path, headers):
                 print("Delete aborted \n") 
 
 def authenticate(username, password):
+
+    if username == "" and password == "":
+        return User(0, "guest", "guest", "read")
+
     rows = readAll(CSV_User_Path, userFields)
     for r in rows:
         if r.get("userName") == username and r.get("password") == password:
@@ -284,6 +288,7 @@ def authenticate(username, password):
 
 def loginLoop():
     while True:
+        print("Press enter for username and password to log in as a guest")
         username = promptInput("Enter username: ")
         password = promptInput("Enter password: ")
 

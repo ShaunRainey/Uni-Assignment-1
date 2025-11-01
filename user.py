@@ -25,7 +25,7 @@ class User:
         print(f"Access rights for: {self.userName} ({self.role})")
         print("\n What would you like to do? \n")
         match self.role:
-            case "basic":
+            case "read":
                 print("1) List items")
                 print("2) Search for an item")
                 print("3) Exit programme")
