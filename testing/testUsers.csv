@@ -1,0 +1,7 @@
+userId,userName,password,role
+1,Shaun,password,admin
+2,Agata,notPassword,admin
+3,Steve,stillNotPassword,read
+4,Seagull,gimmeyochips!,read
+5,FancySeagull,thisisarobbery,write
+6,suspiciousdave,whosasking,read
