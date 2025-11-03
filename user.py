@@ -2,26 +2,26 @@ class User:
 
     validRoles = ["admin", "write", "read"]
 
-    def __init__(self, userId, userName, password, role):
+    def __init__(self, userId, userName, password, role): 
         self.userId = str(userId)
 
-        if not userName.strip(): #ensures name is truthy
+        if not userName.strip(): #ensures variable is truthy
             raise ValueError("Please enter a valid string for user name \n")  
         self.userName = userName.strip()
 
-        if not password.strip(): #ensures name is truthy
+        if not password.strip(): 
             raise ValueError("Please enter a valid string for password \n")  
         self.password = password.strip()
 
         role = role.lower().strip()
-        if role not in User.validRoles:
+        if role not in User.validRoles: #checks to see if the user is one of those listed in the validRoles list
             raise ValueError(f"Invalid role, please enter 'admin', 'write' or 'read'")
         self.role = role
 
-    def __str__(self): #This method dictates what is printed if you just print the object
+    def __str__(self): #This method dictates what is printed if you only print the object
         return f"{self.userId} {self.userName} {self.password} {self.role}"
 
-    def displayRights(self):
+    def displayRights(self): #provides a visual output of actions available depending on role
         print(f"Access rights for: {self.userName} ({self.role})")
         print("\n What would you like to do? \n")
         match self.role:
