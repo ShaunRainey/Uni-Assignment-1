@@ -1,5 +1,6 @@
 import csv
 import os
+import sys
 from datetime import datetime
 from item import InventoryItem
 from user import User
@@ -11,26 +12,26 @@ CSV_User_Path      = os.path.join(os.path.dirname(__file__), 'users.csv')
 inventoryFields = ["itemId","itemName", "itemQuantity", "unitType", "category", "dateUpdated", "updatedBy"]
 userFields      = ["userId", "userName", "password", "role"]
 
-def checkCSV(path, headers): #checks to see if file exists, if not then it creates it
+def checkCSV(path, headers):
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    if not os.path.exists(path):
+    if not os.path.exists(path): # if the file doesn't exist, create it
         print("Creating CSV storage file ...")
-        with open(path, "w",newline="", encoding="utf-8") as f:
-            csv.writer(f).writerow(headers)
+        with open(path, "w",newline="", encoding="utf-8") as f: #as f gives a name to the object returned by open(), it's effectively a file handle
+            csv.writer(f).writerow(headers) #write the desired headers to the file handle
             (print("CSV storage file creation successful \n"))
     
 def readAll(path, headers): #loads the contents of csv file into a variable for use
     checkCSV(path, headers)
     with open(path, "r", newline="", encoding="utf-8") as f:
-        return list(csv.DictReader(f))
+        return list(csv.DictReader(f)) #creates a list containing dictionarys of the objects held in the CSV file
 
-def nextItemId(path, headers): #Allows Id to incremenet with each addition
+def nextItemId(path, headers): #Allows Id to increment with each addition
     rows = readAll(path, headers) 
     maxId = 0
 
 
-    for r in rows:
-        itemId = r.get("itemId")
+    for r in rows: #iterate though each row
+        itemId = r.get("itemId") #depending on the csv path, there will only be one of these 2 variables. If not using r.get, the system will crash
         userId = r.get("userId")
         try:
             if(itemId):
@@ -46,8 +47,8 @@ def promptInput(message): #helper function to avoid writing .strip() over and ov
 
 def appendRow(row, path, headers): #Adds a new entry to the bottom of the CSV file
     checkCSV(path, headers)
-    with open(path, "a", newline="", encoding="utf-8") as f: 
-        w = csv.DictWriter(f, fieldnames=headers)
+    with open(path, "a", newline="", encoding="utf-8") as f: #a = append
+        w = csv.DictWriter(f, fieldnames=headers) #allows you to write dictionaries directly to a csv file
         w.writerow(row)
     
 def createItemObject(user): #Creates an instance of the InventoryItem class, giving access to class methods
@@ -61,7 +62,7 @@ def createItemObject(user): #Creates an instance of the InventoryItem class, giv
         date     = datetime.now().strftime("%Y-%m-%d")
 
         try:
-            newItem = InventoryItem(itemId, name, quantity, unit, category, date, addedBy)
+            newItem = InventoryItem(itemId, name, quantity, unit, category, date, addedBy) #Create an instance of the InventoryItem class
 
             print(newItem.toDict())
             print("Item Created \n")
@@ -71,7 +72,7 @@ def createItemObject(user): #Creates an instance of the InventoryItem class, giv
         except ValueError as e:
             print(f"\n Item creation failed: \n {e}")
 
-def createUserObject(): #Creates an instance of the InventoryItem class, giving access to class methods
+def createUserObject(): #Creates an instance of the User class, giving access to class methods
     while True:
         userId   = nextItemId(CSV_User_Path, userFields)
         userName = promptInput("User name: ")
@@ -89,7 +90,7 @@ def createUserObject(): #Creates an instance of the InventoryItem class, giving 
         except ValueError as e:
             print(f"\n Item creation failed: {e}")
 
-def AddItem(path, headers, user):
+def AddItem(path, headers, user): #Create an object, takes in user details, adds it to CSV file
     row = createItemObject(user)
     appendRow(row, path, headers)
     print("Item added \n")
@@ -99,14 +100,14 @@ def AddUser(path, headers):
     appendRow(row, path, headers)
     print("User created")
 
-def tabulateData(data):
+def tabulateData(data): #Creates a table to display the CSV contents
     try: #this is to protect against an empty csv breaking the code
         col_alignment = ["center"] * len(data[0])
         print(tabulate(data, headers="keys", tablefmt="grid", colalign=col_alignment) + "\n")
     except:
         print("Currently no entries held \n")
 
-def listEntries(path, headers):
+def listEntries(path, headers): #Present the CSV file to user
     print("\n --- All Entries --- \n")
     rows = readAll(path, headers)
     tabulateData(rows)
@@ -114,7 +115,7 @@ def listEntries(path, headers):
 def searchItems(path, headers):
     print("\n --- Search Items --- \n")
     term = promptInput("Enter search term (itemName or updatedBy): ").lower()
-    if not term:
+    if not term: #Data validation to make sure a term has been input
         print("Empty search term \n")
         return
 
@@ -147,7 +148,7 @@ def searchUsers(path, headers):
         return
     tabulateData(results)
 
-def overWriteCSV(rows, path, headers):
+def overWriteCSV(rows, path, headers): #Allows edits to be made to the CSV file without having to delete and re-create it
     with open(path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=headers)
         writer.writeheader()
@@ -174,8 +175,8 @@ def updateItem(path, headers, currentlyLoggedIn):
                 match changeProperty:
                     case "1":
                         r["itemName"] = promptInput("Please enter the new value: ")
-                        r["dateUpdated"] = datetime.now().strftime("%Y-%m-%d")
-                        r["updatedBy"] = currentlyLoggedIn.userName
+                        r["dateUpdated"] = datetime.now().strftime("%Y-%m-%d") #Timestamps when the item was changed, for auditability
+                        r["updatedBy"] = currentlyLoggedIn.userName #Attaches username to the item update, for auditability
                     case "2":
                         r["itemQuantity"] = promptInput("Please enter the new value: ")
                         r["dateUpdated"] = datetime.now().strftime("%Y-%m-%d")
@@ -254,7 +255,7 @@ def deleteEntry(path, headers):
         itemId = r.get("itemId")
         userId = r.get("userId")
 
-        if itemId and itemId == changeId:
+        if itemId and itemId == changeId: #if the itemID is valid/contained within the CSV and is equal to the user input....
             tabulateData([r])
             confirm = promptInput("Are you sure you want to delete this entry? Enter 'y' to confirm.\n")
             if confirm == 'y':
@@ -264,11 +265,11 @@ def deleteEntry(path, headers):
             else:
                 print("Delete aborted \n")
 
-        elif userId == changeId:
+        elif userId == changeId: #to activate this, itemId has been confirmed not present, therefor userId has to be present. No truthy check needed
             tabulateData([r])
             confirm = promptInput("Are you sure you want to delete this entry? Enter 'y' to confirm.\n")
             if confirm == 'y':
-                rows.pop(rows.index(r)) #pop removes based on an index value
+                rows.pop(rows.index(r))
                 overWriteCSV(rows, path, headers)
                 print("User deleted \n")
             else:
@@ -276,7 +277,7 @@ def deleteEntry(path, headers):
 
 def authenticate(username, password):
 
-    if username == "" and password == "":
+    if username == "" and password == "": #establishes a default account with read access
         return User(0, "guest", "guest", "read")
 
     rows = readAll(CSV_User_Path, userFields)
@@ -287,8 +288,10 @@ def authenticate(username, password):
     return None   
 
 def loginLoop():
-    while True:
+    count = 0
+    while count < 3:
         print("Press enter for username and password to log in as a guest")
+        count += 1
         username = promptInput("Enter username: ")
         password = promptInput("Enter password: ")
 
@@ -298,6 +301,8 @@ def loginLoop():
             return user
         else:
             print("Invalid login attempt, please try again \n")
+    print("Excess failed login attempts. Terminating program...")
+    sys.exit()
 
 
 def main():
