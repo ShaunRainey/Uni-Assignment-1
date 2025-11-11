@@ -1,10 +1,92 @@
-Current flaws:
+# Inventory Management System - How To Run
 
-When an item is deleted, there's no traceability. 
-Validation of inputs could be improved, currently very basic
-Could use getters and setters to remove direct access to objects
-Could expand search to include a date filter
-Some of the functions could be combined and made generic, to stick to DRY principles
-When creating/updating you're currently locked into the task unless you complete it
+1 - Ensure Python 3 is installed (Developed using python 3.12.10)
 
-Currently a bug where if the update fails, the item being updated is just deleted
+2 - Install package:
+
+    pip install tabulate
+
+3 - Save all .py files into the same folder and open a terminal from that folder
+
+4 - Run the program using
+
+    main.py
+
+5 - Login options are available to view in:
+
+    users.csv
+
+6 - Usernames and passwords are case sensitive, ensure correct typing. A default read user is available by pressing enter twice for login.   
+
+7 - The program is designed to run using prompts, that then require user inputs. Once the main program is running, simply follow the prompts and input appropriate information
+
+
+## Read Actions
+
+1 - List Items
+
+    Produces a table of all items currently held in inventory.csv
+
+2 - Search for an item
+
+    Enter a key term to search inventory.csv with
+
+## Write Actions
+
+1 - List Items
+
+    Produces a table of all items currently held in inventory.csv
+
+2 - Search for an item
+
+    Enter a key term to search inventory.csv with
+
+3 - Add Item
+
+    Follow console prompts to enter a new item into inventory.csv
+
+4 - Update Item
+
+    Follow console prompts to update a currently existing item into inventory.csv
+
+## Admin Actions
+
+1 - List Items
+
+    Produces a table of all items currently held in inventory.csv
+
+2 - Search for an item
+
+    Enter a key term to search inventory.csv with
+
+3 - Add Item
+
+    Follow console prompts to enter a new item into inventory.csv
+
+4 - Update Item
+
+    Follow console prompts to update a currently existing item into inventory.csv
+
+5 - Delete Item 
+
+    Follow console prompts to delete a currently existing item into inventory.csv
+
+6 - List Users
+
+    Produces a table of all users currently held in users.csv
+
+7 - Search for a user
+
+    Enter a key term to search users.csv with   
+
+8 - Create user
+
+    Follow console prompts to enter a new user into user.csv
+
+9 - Update user
+
+    Follow console prompts to update an existing user into user.csv
+
+10 - Delete user
+
+    Follow console prompts to update an existing user into user.csv

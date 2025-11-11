@@ -88,14 +88,14 @@ def createUserObject(): #Creates an instance of the User class, giving access to
             return newUser.toDict()
         
         except ValueError as e:
-            print(f"\n Item creation failed: {e}")
+            print(f"\n User creation failed: {e}")
 
-def AddItem(path, headers, user): #Create an object, takes in user details, adds it to CSV file
+def addItem(path, headers, user): #Create an object, takes in user details, adds it to CSV file
     row = createItemObject(user)
     appendRow(row, path, headers)
     print("Item added \n")
 
-def AddUser(path, headers):
+def addUser(path, headers):
     row = createUserObject()
     appendRow(row, path, headers)
     print("User created")
@@ -235,7 +235,7 @@ def updateUser(path, headers):
                         break
                     case _:
                         print("Please enter a valid choice")
-                        continue #restarts the loop rather than proceeding to next lines
+                        continue 
 
                 print("New record:")
                 tabulateData([r])
@@ -273,7 +273,11 @@ def deleteEntry(path, headers):
                 overWriteCSV(rows, path, headers)
                 print("User deleted \n")
             else:
-                print("Delete aborted \n") 
+                print("Delete aborted \n")
+        else:
+                print("Invalid choice, delete aborted \n")
+                break
+         
 
 def authenticate(username, password):
 
@@ -303,7 +307,6 @@ def loginLoop():
             print("Invalid login attempt, please try again \n")
     print("Excess failed login attempts. Terminating program...")
     sys.exit()
-
 
 def main():
     checkCSV(CSV_Inventory_Path, inventoryFields)
@@ -339,7 +342,7 @@ def main():
                     case "2":
                         searchItems(CSV_Inventory_Path, inventoryFields)
                     case "3":
-                        AddItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
+                        addItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
                     case "4":
                         updateItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
                     case "5":
@@ -358,7 +361,7 @@ def main():
                     case "2":
                         searchItems(CSV_Inventory_Path, inventoryFields)
                     case "3":
-                        AddItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
+                        addItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
                     case "4":
                         updateItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
                     case "5":
@@ -368,7 +371,7 @@ def main():
                     case "7":
                         searchUsers(CSV_User_Path, userFields)
                     case "8":
-                        AddUser(CSV_User_Path, userFields)
+                        addUser(CSV_User_Path, userFields)
                     case "9":
                         updateUser(CSV_User_Path, userFields)
                     case "10":

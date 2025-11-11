@@ -57,11 +57,3 @@ class User:
             "password" : self.password,
             "role"     : self.role
         }
-    
-    def fromDict(cls, data): #cls = class. Effectively takes information and structures it to the class blueprint. Maintains all validation from the class
-        return cls( #this method takes a dictionary, and creates an InventoryItem object
-            userId   = data["userId"],
-            userName = data["userName"],
-            password = data["password"],
-            role     = data["role"]
-        )

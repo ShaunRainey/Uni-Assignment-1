@@ -40,14 +40,3 @@ class InventoryItem:
             "dateUpdated" : self.dateUpdated,
             "updatedBy"   : self.updatedBy
         }
-    
-    def fromDict(cls, data): #cls = class. Effectively takes information and structures it to the class blueprint. Maintains all validation from the class
-        return cls( #this method takes a dictionary, and creates an InventoryItem object
-            itemId       = data["itemId"],
-            itemName     = data["itemName"],
-            itemQuantity = data["itemQuantity"],
-            unitType     = data["unitType"],
-            category     = data["category"],
-            dateUpdated  = data["dateUpdated"],
-            updatedBy    = data["updatedBy"]
-        )
