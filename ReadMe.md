@@ -90,8 +90,3 @@
 10 - Delete user
 
     Follow console prompts to update an existing user into user.csv
-
-
-
-
-Testing to see if the branch system is working

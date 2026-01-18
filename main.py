@@ -5,6 +5,9 @@ from datetime import datetime
 from item import InventoryItem
 from user import User
 from tabulate import tabulate #python -m pip install tabulate
+from Functions.CSVFunctions import *
+
+
 
 CSV_Inventory_Path = os.path.join(os.path.dirname(__file__), "inventory.csv")
 CSV_User_Path      = os.path.join(os.path.dirname(__file__), 'users.csv')
@@ -12,14 +15,14 @@ CSV_User_Path      = os.path.join(os.path.dirname(__file__), 'users.csv')
 inventoryFields = ["itemId","itemName", "itemQuantity", "unitType", "category", "dateUpdated", "updatedBy"]
 userFields      = ["userId", "userName", "password", "role"]
 
-def checkCSV(path, headers):
-    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    if not os.path.exists(path): # if the file doesn't exist, create it
-        print("Creating CSV storage file ...")
-        with open(path, "w",newline="", encoding="utf-8") as f: #as f gives a name to the object returned by open(), it's effectively a file handle
-            csv.writer(f).writerow(headers) #write the desired headers to the file handle
-            (print("CSV storage file creation successful \n"))
-    
+# def checkCSV(path, headers):
+#     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+#     if not os.path.exists(path): # if the file doesn't exist, create it
+#         print("Creating CSV storage file ...")
+#         with open(path, "w",newline="", encoding="utf-8") as f: #as f gives a name to the object returned by open(), it's effectively a file handle
+#             csv.writer(f).writerow(headers) #write the desired headers to the file handle
+#             (print("CSV storage file creation successful \n"))
+
 def readAll(path, headers): #loads the contents of csv file into a variable for use
     checkCSV(path, headers)
     with open(path, "r", newline="", encoding="utf-8") as f:
