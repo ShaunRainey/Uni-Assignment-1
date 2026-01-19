@@ -29,6 +29,7 @@ def addUser(path, headers):
     row = createUserObject()
     appendRow(row, path, headers)
     print("User created")
+    return row
 
 def searchUsers(path, headers):
     print("\n --- Search Users --- \n")
@@ -86,7 +87,8 @@ def updateUser(path, headers):
 
                 overWriteCSV(rows, path, headers)
                 print("CSV file updated successfully \n")
-            break
+            
+            return r
     else:
         print("\n Invalid ID \n ")   
 

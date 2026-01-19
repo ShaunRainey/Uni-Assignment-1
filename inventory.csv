@@ -10,3 +10,7 @@ itemId,itemName,itemQuantity,unitType,category,dateUpdated,updatedBy
 9,Envelope,100,Pieces,Stationery,2025-10-26,notShaun
 10,pen,5,pieces,stationery,2026-01-18,Shaun
 11,steve,1,not really,man,2026-01-18,Shaun
+13,Big pen,65,pieces,stationery,2026-01-18,Shaun
+14,Small pen,100,pieces,stationery,2026-01-18,Shaun
+15,Medium Pen,50,pieces,stationery,2026-01-18,Shaun
+18,More pens,123,pieces,stationery,2026-01-18,Shaun

@@ -27,11 +27,14 @@ def nextItemId(path, headers): #Allows Id to increment with each addition
     for r in rows: #iterate though each row
         itemId = r.get("itemId") #depending on the csv path, there will only be one of these 2 variables. If not using r.get, the system will crash
         userId = r.get("userId")
+        logId = r.get("logId")
         try:
             if(itemId):
                 maxId = max(maxId, int(r.get("itemId", "0") or "0"))
             elif(userId):
                 maxId = max(maxId, int(r.get("userId", "0") or "0"))
+            elif(logId):
+                maxId = max(maxId, int(r.get("logId", "0") or "0"))
         except ValueError:
             pass
     return str(maxId +1)

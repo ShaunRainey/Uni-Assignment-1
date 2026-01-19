@@ -1,0 +1,31 @@
+logId,userName,action,message,timeStamp
+
+1,Shaun,logged out,Shaun has logged out,2026-01-19 00:30:02
+2,Shaun,logged in,Shaun has logged in,2026-01-19 00:30:08
+3,Shaun,update item,Shaun has updated itemId: 34,2026-01-19 00:30:19
+4,Shaun,logged out,Shaun has logged out,2026-01-19 00:30:34
+5,Shaun,logged in,Shaun has logged in,2026-01-19 00:33:27
+6,Shaun,logged out,Shaun has logged out,2026-01-19 00:34:07
+7,Shaun,logged in,Shaun has logged in,2026-01-19 00:34:12
+8,Shaun,delete item,,2026-01-19 00:34:31
+9,Shaun,logged out,Shaun has logged out,2026-01-19 00:35:23
+10,Shaun,logged in,Shaun has logged in,2026-01-19 00:35:27
+11,Shaun,delete item,"Shaun has deleted itemId: ('324', {'Falcon'})",2026-01-19 00:35:38
+12,Shaun,logged out,Shaun has logged out,2026-01-19 00:36:01
+13,Shaun,logged in,Shaun has logged in,2026-01-19 00:36:06
+14,Shaun,add item,"Shaun has added 1345 unit/s of ""ergwer""",2026-01-19 00:36:13
+15,Shaun,delete item,"Shaun has deleted itemId: 1345, ergwer",2026-01-19 00:36:18
+16,Shaun,logged out,Shaun has logged out,2026-01-19 00:41:52
+17,Shaun,logged in,Shaun has logged in,2026-01-19 00:41:57
+18,Shaun,add user,"Shaun has added user :Sharon, with admin rights",2026-01-19 00:42:15
+19,Shaun,logged out,Shaun has logged out,2026-01-19 00:44:43
+20,Shaun,logged in,Shaun has logged in,2026-01-19 00:44:50
+21,Shaun,update user,Shaun has updated userId: 8,2026-01-19 00:45:50
+22,Shaun,logged out,Shaun has logged out,2026-01-19 00:47:48
+23,Shaun,logged in,Shaun has logged in,2026-01-19 00:47:56
+24,Shaun,delete user,"Shaun has deleted userId: 8, Sharon",2026-01-19 00:48:03
+25,Shaun,logged out,Shaun has logged out,2026-01-19 00:49:46
+26,guest,logged in,guest has logged in,2026-01-19 00:50:08
+27,guest,logged out,guest has logged out,2026-01-19 00:50:13
+28,Shaun,logged in,Shaun has logged in,2026-01-19 00:50:19
+29,Shaun,logged out,Shaun has logged out,2026-01-19 00:50:27

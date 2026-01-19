@@ -30,8 +30,10 @@ def createItemObject(user): #Creates an instance of the InventoryItem class, giv
 
 def addItem(path, headers, user): #Create an object, takes in user details, adds it to CSV file
     row = createItemObject(user)
+    print(row)
     appendRow(row, path, headers)
     print("Item added \n")
+    return row
 
 def searchItems(path, headers):
     print("\n --- Search Items --- \n")
@@ -72,31 +74,27 @@ def updateItem(path, headers, currentlyLoggedIn):
                 match changeProperty:
                     case "1":
                         r["itemName"] = promptInput("Please enter the new value: ")
-                        r["dateUpdated"] = datetime.now().strftime("%Y-%m-%d") #Timestamps when the item was changed, for auditability
-                        r["updatedBy"] = currentlyLoggedIn.userName #Attaches username to the item update, for auditability
                     case "2":
                         r["itemQuantity"] = promptInput("Please enter the new value: ")
-                        r["dateUpdated"] = datetime.now().strftime("%Y-%m-%d")
-                        r["updatedBy"] = currentlyLoggedIn.userName
                     case "3":
                         r["unitType"] = promptInput("Please enter the new value: ")
-                        r["dateUpdated"] = datetime.now().strftime("%Y-%m-%d")
-                        r["updatedBy"] = currentlyLoggedIn.userName
                     case "4":
                         r["category"] = promptInput("Please enter the new value: ")
-                        r["dateUpdated"] = datetime.now().strftime("%Y-%m-%d")
-                        r["updatedBy"] = currentlyLoggedIn.userName
                     case "5":
                         break
                     case _:
                         print("Please enter a valid choice")
                         continue #restarts the loop rather than proceeding to next lines
 
+                r["dateUpdated"] = datetime.now().strftime("%Y-%m-%d")
+                r["updatedBy"] = currentlyLoggedIn.userName
+
                 print("New record:")
                 tabulateData([r])
 
                 overWriteCSV(rows, path, headers)
                 print("CSV file updated successfully \n")
-            break
+        
+            return r
     else:
         print("\n Invalid ID \n ")

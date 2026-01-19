@@ -35,9 +35,10 @@ def deleteEntry(path, headers):
             tabulateData([r])
             confirm = promptInput("Are you sure you want to delete this entry? Enter 'y' to confirm, else delete will be aborted.\n")
             if confirm == 'y':
-                rows.pop(rows.index(r)) #pop removes based on an index value
+                deletedItem = rows.pop(rows.index(r)) #pop removes based on an index value
                 overWriteCSV(rows, path, headers)
                 print("Item deleted \n")
+                return deletedItem
             else:
                 print("Delete aborted \n")
                 break
@@ -46,9 +47,10 @@ def deleteEntry(path, headers):
             tabulateData([r])
             confirm = promptInput("Are you sure you want to delete this entry? Enter 'y' to confirm, else delete will be aborted.\n")
             if confirm == 'y':
-                rows.pop(rows.index(r))
+                deletedUser = rows.pop(rows.index(r))
                 overWriteCSV(rows, path, headers)
                 print("User deleted \n")
+                return deletedUser
             else:
                 print("Delete aborted \n")
                 break

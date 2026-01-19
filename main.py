@@ -3,11 +3,15 @@ from Functions.CSVFunctions import *
 from Functions.utilityFunctions import *
 from Functions.userClassFunctions import *
 from Functions.itemClassFunctions import *
+from Functions.loggingFunctions import *
 
 def main():
     checkCSV(CSV_Inventory_Path, inventoryFields)
     checkCSV(CSV_User_Path, userFields)
+    checkCSV(CSV_Logging_Path, logFields)
+
     currentlyLoggedIn = loginLoop()
+    addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 7)
 
     while True:
 
@@ -24,6 +28,7 @@ def main():
                         searchItems(CSV_Inventory_Path, inventoryFields)
                     case "3":
                         print("Goodbye!")
+                        addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 8)
                         currentlyLoggedIn = None
                         break
                     case _:
@@ -39,10 +44,12 @@ def main():
                         searchItems(CSV_Inventory_Path, inventoryFields)
                     case "3":
                         addItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
+                        addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 1)
                     case "4":
                         updateItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
                     case "5":
                         print("Goodbye!")
+                        addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 8)
                         currentlyLoggedIn = None
                         break
                     case _:
@@ -57,25 +64,34 @@ def main():
                     case "2":
                         searchItems(CSV_Inventory_Path, inventoryFields)
                     case "3":
-                        addItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
+                        newItem = addItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
+                        addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 1, newItem)
                     case "4":
-                        updateItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
+                        updatedItem = updateItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
+                        addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 2, updatedItem)
                     case "5":
-                        deleteEntry(CSV_Inventory_Path, inventoryFields)
+                        deletedItem = deleteEntry(CSV_Inventory_Path, inventoryFields)
+                        addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 3, deletedItem)
                     case "6":
                         listEntries(CSV_User_Path, userFields)
                     case "7":
                         searchUsers(CSV_User_Path, userFields)
                     case "8":
-                        addUser(CSV_User_Path, userFields)
+                        newUser = addUser(CSV_User_Path, userFields)
+                        addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 4, newUser)
                     case "9":
-                        updateUser(CSV_User_Path, userFields)
+                        updatedUser = updateUser(CSV_User_Path, userFields)
+                        addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 5, updatedUser)
                     case "10":
-                        deleteEntry(CSV_User_Path, userFields)
+                        deletedUser = deleteEntry(CSV_User_Path, userFields)
+                        addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 6, deletedUser)
                     case "11":
                         print("Goodbye!")
+                        addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 8)
                         currentlyLoggedIn = None
                         break
+                    case "12":
+                        listEntries(CSV_Logging_Path, logFields)
                     case _:
                         print("Invalid choice")
 
