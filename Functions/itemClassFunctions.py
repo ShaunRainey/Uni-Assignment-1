@@ -5,20 +5,20 @@ import os
 from datetime import datetime
 
 CSV_Inventory_Path = os.path.join(os.path.dirname(__file__), "../inventory.csv")
-inventoryFields = ["itemId","itemName", "itemQuantity", "unitType", "category", "dateUpdated", "updatedBy"]
+inventoryFields = ["itemId","itemName", "itemQuantity", "category", "status", "dateUpdated", "updatedBy"]
 
 def createItemObject(user): #Creates an instance of the InventoryItem class, giving access to class methods
     while True:
         itemId   = nextItemId(CSV_Inventory_Path, inventoryFields)
         name     = promptInput("Item name: ")
         quantity = promptInput("Quantity: ")
-        unit     = promptInput("Unit: ")
         category = promptInput("Category: ")
+        status   = promptInput("Status: ")
         addedBy  = user.userName
         date     = datetime.now().strftime("%Y-%m-%d")
 
         try:
-            newItem = InventoryItem(itemId, name, quantity, unit, category, date, addedBy) #Create an instance of the InventoryItem class
+            newItem = InventoryItem(itemId, name, quantity, category, status, date, addedBy) #Create an instance of the InventoryItem class
 
             print(newItem.toDict())
             print("Item Created \n")
@@ -66,10 +66,10 @@ def updateItem(path, headers, currentlyLoggedIn):
                 print("Please choose the property to update:")
                 print("1) itemName")
                 print("2) itemQuantity")
-                print("3) unitType")
-                print("4) category")
+                print("3) category")
+                print("4) status")
                 print("5) exit")
-                changeProperty = promptInput("\n Choose (1/2/3/4/5): \n")
+                changeProperty = promptInput("\n Choose (1/2/3/4): \n")
 
                 match changeProperty:
                     case "1":
@@ -77,9 +77,9 @@ def updateItem(path, headers, currentlyLoggedIn):
                     case "2":
                         r["itemQuantity"] = promptInput("Please enter the new value: ")
                     case "3":
-                        r["unitType"] = promptInput("Please enter the new value: ")
-                    case "4":
                         r["category"] = promptInput("Please enter the new value: ")
+                    case "4":
+                        r["status"] = promptInput("Please enter the new value: ")
                     case "5":
                         break
                     case _:

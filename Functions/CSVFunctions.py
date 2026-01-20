@@ -5,7 +5,7 @@ CSV_User_Path = os.path.join(os.path.dirname(__file__), '../users.csv')
 userFields = ["userId", "userName", "password", "role"]
 
 CSV_Inventory_Path = os.path.join(os.path.dirname(__file__), "../inventory.csv")
-inventoryFields = ["itemId","itemName", "itemQuantity", "unitType", "category", "dateUpdated", "updatedBy"]
+inventoryFields = ["itemId","itemName", "itemQuantity", "category", "status", "dateUpdated", "updatedBy"]
 
 def checkCSV(path, headers):
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
