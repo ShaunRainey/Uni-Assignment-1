@@ -1,6 +1,5 @@
 import os
-from .CSVFunctions import checkCSV, nextItemId, appendRow
-from .utilityFunctions import promptInput
+from .CSVFunctions import nextItemId, appendRow
 from datetime import datetime
 
 CSV_Logging_Path = os.path.join(os.path.dirname(__file__), '../CSVFiles/log.csv')
