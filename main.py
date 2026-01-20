@@ -4,6 +4,7 @@ from Functions.utilityFunctions import *
 from Functions.userClassFunctions import *
 from Functions.itemClassFunctions import *
 from Functions.loggingFunctions import *
+from Functions.warningFunctions import *
 
 def main():
     checkCSV(CSV_Inventory_Path, inventoryFields)
@@ -13,13 +14,16 @@ def main():
     currentlyLoggedIn = loginLoop()
     addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 7)
 
+    warnings = getWarnings(CSV_Inventory_Path, inventoryFields)
+    warningAlert(warnings)
+
     while True:
 
         match currentlyLoggedIn.role:
             
             case "read":
                 currentlyLoggedIn.displayRights()
-                choice = promptInput("\n Choose (1/2/3): ")
+                choice = promptInput("\n Choose (1/2/3/4): ")
 
                 match choice:
                     case "1":
@@ -27,6 +31,9 @@ def main():
                     case "2":
                         searchItems(CSV_Inventory_Path, inventoryFields)
                     case "3":
+                        warnings = getWarnings(CSV_Inventory_Path, inventoryFields)
+                        tabulateWarnings(warnings)
+                    case "4":
                         print("Goodbye!")
                         addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 8)
                         currentlyLoggedIn = None
@@ -35,7 +42,7 @@ def main():
                         print("Invalid choice")
             case "write":
                 currentlyLoggedIn.displayRights()
-                choice = promptInput("\n Choose (1/2/3/4/5): ")
+                choice = promptInput("\n Choose (1/2/3/4/5/6): ")
 
                 match choice:
                     case "1":
@@ -48,6 +55,9 @@ def main():
                     case "4":
                         updateItem(CSV_Inventory_Path, inventoryFields, currentlyLoggedIn)
                     case "5":
+                        warnings = getWarnings(CSV_Inventory_Path, inventoryFields)
+                        tabulateWarnings(warnings)
+                    case "6":
                         print("Goodbye!")
                         addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 8)
                         currentlyLoggedIn = None
@@ -56,7 +66,7 @@ def main():
                         print("Invalid choice")
             case "admin":
                 currentlyLoggedIn.displayRights()
-                choice = promptInput("\n Choose (1/2/3/4/5/6/7/8/9/10/11): ")
+                choice = promptInput("\n Choose (1/2/3/4/5/6/7/8/9/10/11/12/13): ")
 
                 match choice:
                     case "1":
@@ -86,12 +96,15 @@ def main():
                         deletedUser = deleteEntry(CSV_User_Path, userFields)
                         addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 6, deletedUser)
                     case "11":
+                        listEntries(CSV_Logging_Path, logFields)
+                    case "12":
+                        warnings = getWarnings(CSV_Inventory_Path, inventoryFields)
+                        tabulateWarnings(warnings)
+                    case "13":
                         print("Goodbye!")
                         addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 8)
                         currentlyLoggedIn = None
                         break
-                    case "12":
-                        listEntries(CSV_Logging_Path, logFields)
                     case _:
                         print("Invalid choice")
 

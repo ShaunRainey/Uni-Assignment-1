@@ -23,18 +23,23 @@ class User:
 
     def displayRights(self): #provides a visual output of actions available depending on role
         print(f"Access rights for: {self.userName} ({self.role})")
-        print("\n What would you like to do? \n")
+        print("\nWhat would you like to do? \n")
         match self.role:
+
             case "read":
                 print("1) List items")
                 print("2) Search for an item")
-                print("3) Exit programme")
+                print("3) View warnings")
+                print("4) Exit programme")
+
             case "write":
                 print("1) List items")
                 print("2) Search for an item")
                 print("3) Add item")
                 print("4) Update items")
-                print("5) Exit programme")
+                print("5) View warnings")
+                print("6) Exit programme")
+                
             case "admin":
                 print("1)  List items")
                 print("2)  Search for an item")
@@ -46,7 +51,9 @@ class User:
                 print("8)  Create user") 
                 print("9)  Update user") 
                 print("10) Delete user") 
-                print("11) Exit programme")
+                print("11) View logs")
+                print("12) View warnings")
+                print("13) Exit programme")
             case _:
                 print("Unknown user role")
 

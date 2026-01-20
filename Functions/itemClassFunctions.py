@@ -69,7 +69,7 @@ def updateItem(path, headers, currentlyLoggedIn):
                 print("3) category")
                 print("4) status")
                 print("5) exit")
-                changeProperty = promptInput("\n Choose (1/2/3/4): \n")
+                changeProperty = promptInput("\n Choose (1/2/3/4/5): \n")
 
                 match changeProperty:
                     case "1":

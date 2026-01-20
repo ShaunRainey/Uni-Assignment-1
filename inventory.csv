@@ -9,10 +9,10 @@ itemId,itemName,itemQuantity,category,status,dateUpdated,updatedBy
 8,Calculator,20,Stationery,functional,2025-10-26,notShaun
 9,Envelope,100,Stationery,functional,2025-10-26,notShaun
 10,pen,5,stationery,functional,2026-01-18,Shaun
-11,steve,1,man,functional,2026-01-18,Shaun
+11,steve,1,man,faulty,2026-01-18,Shaun
 13,Big pen,65,stationery,functional,2026-01-18,Shaun
 14,Small pen,100,stationery,functional,2026-01-18,Shaun
 15,Medium Pen,50,stationery,functional,2026-01-18,Shaun
-18,More pens,123,stationery,functional,2026-01-18,Shaun
+18,More pens,0,stationery,functional,2026-01-18,Shaun
 19,Steve,34,Human,faulty,2026-01-20,Shaun
-20,erfer,23,efwqe,faulty,2026-01-20,Shaun
+20,erfer,0,efwqe,faulty,2026-01-20,Shaun

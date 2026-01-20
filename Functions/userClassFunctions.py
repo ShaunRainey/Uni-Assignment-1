@@ -114,7 +114,7 @@ def loginLoop():
 
         user = authenticate(username, password)
         if user:
-            print(f"\n Login successful. Welcome {user.userName}")
+            print(f"\nLogin successful. Welcome {user.userName} \n")
             return user
         else:
             print("Invalid login attempt, please try again \n")
