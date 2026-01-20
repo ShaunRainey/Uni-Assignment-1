@@ -1,10 +1,10 @@
 import os
 import csv
 
-CSV_User_Path = os.path.join(os.path.dirname(__file__), '../users.csv')
+CSV_User_Path = os.path.join(os.path.dirname(__file__), '../CSVFiles/users.csv')
 userFields = ["userId", "userName", "password", "role"]
 
-CSV_Inventory_Path = os.path.join(os.path.dirname(__file__), "../inventory.csv")
+CSV_Inventory_Path = os.path.join(os.path.dirname(__file__), "../CSVFiles/inventory.csv")
 inventoryFields = ["itemId","itemName", "itemQuantity", "category", "status", "dateUpdated", "updatedBy"]
 
 def checkCSV(path, headers):

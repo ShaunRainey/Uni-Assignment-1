@@ -3,7 +3,7 @@ from .CSVFunctions import checkCSV, nextItemId, appendRow
 from .utilityFunctions import promptInput
 from datetime import datetime
 
-CSV_Logging_Path = os.path.join(os.path.dirname(__file__), '../log.csv')
+CSV_Logging_Path = os.path.join(os.path.dirname(__file__), '../CSVFiles/log.csv')
 logFields = ["logId", "userName", "action", "message", "timeStamp"]
 
 def createLog(user, actionCode, target=None):

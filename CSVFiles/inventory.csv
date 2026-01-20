@@ -15,4 +15,3 @@ itemId,itemName,itemQuantity,category,status,dateUpdated,updatedBy
 15,Medium Pen,50,stationery,functional,2026-01-18,Shaun
 18,More pens,0,stationery,functional,2026-01-18,Shaun
 19,Steve,34,Human,faulty,2026-01-20,Shaun
-20,erfer,0,efwqe,faulty,2026-01-20,Shaun

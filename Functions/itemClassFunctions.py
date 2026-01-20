@@ -4,7 +4,7 @@ from item import InventoryItem
 import os
 from datetime import datetime
 
-CSV_Inventory_Path = os.path.join(os.path.dirname(__file__), "../inventory.csv")
+CSV_Inventory_Path = os.path.join(os.path.dirname(__file__), "../CSVFiles/inventory.csv")
 inventoryFields = ["itemId","itemName", "itemQuantity", "category", "status", "dateUpdated", "updatedBy"]
 
 def createItemObject(user): #Creates an instance of the InventoryItem class, giving access to class methods

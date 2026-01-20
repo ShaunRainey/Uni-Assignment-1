@@ -4,7 +4,7 @@ from user import User
 import os
 import sys
 
-CSV_User_Path = os.path.join(os.path.dirname(__file__), '../users.csv')
+CSV_User_Path = os.path.join(os.path.dirname(__file__), '../CSVFiles/users.csv')
 userFields = ["userId", "userName", "password", "role"]
 
 def createUserObject(): #Creates an instance of the User class, giving access to class methods
