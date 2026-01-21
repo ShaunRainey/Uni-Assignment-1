@@ -1,5 +1,6 @@
-#Creates a User class to take advantage of encapsulation, allows repeated use code for multiple objects and internal
-#data validation, this approach means that a User object can't be created unless the inputs are correct
+#Creates a user class to take advantage of encapsulation, allows repeated use code for multiple objects and internal
+#data validation, this approach means that a user object can't be created unless the inputs are correct. toDict method
+#allows object to be created as a dictionary, which is convenient for CSV storage
 
 class User:
 
