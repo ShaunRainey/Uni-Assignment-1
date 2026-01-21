@@ -1,3 +1,7 @@
+#Creates an item class to take advantage of encapsulation, allows repeated use code for multiple objects and internal
+#data validation, this approach means that an item object can't be created unless the inputs are correct. toDict method
+#allows object to be created as a dictionary, which is convenient for CSV storage
+
 class InventoryItem:
     def __init__(self, itemId, itemName, itemQuantity, category, status, dateUpdated, updatedBy): #init = initialiser. This sets up an objects initial state
         
