@@ -7,6 +7,7 @@ from Functions.itemClassFunctions import *
 from Functions.loggingFunctions import *
 from Functions.warningFunctions import *
 
+#Main program that runs the CLI, will ask you to log in and then present options depending on the user role
 def main():
     checkCSV(CSV_Inventory_Path, inventoryFields)
     checkCSV(CSV_User_Path, userFields)
