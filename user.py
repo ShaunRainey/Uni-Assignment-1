@@ -1,3 +1,6 @@
+#Creates a User class to take advantage of encapsulation, allows repeated use code for multiple objects and internal
+#data validation, this approach means that a User object can't be created unless the inputs are correct
+
 class User:
 
     validRoles = ["admin", "write", "read"]
