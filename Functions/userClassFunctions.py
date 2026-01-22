@@ -1,3 +1,5 @@
+# Functions to manage user profiles and the login system
+
 from .utilityFunctions import *
 from .CSVFunctions import nextItemId, readAll, appendRow, overWriteCSV
 from user import User
@@ -7,7 +9,8 @@ import sys
 CSV_User_Path = os.path.join(os.path.dirname(__file__), '../CSVFiles/users.csv')
 userFields = ["userId", "userName", "password", "role"]
 
-def createUserObject(): #Creates an instance of the User class, giving access to class methods
+#Creates an instance of the User class, giving access to class methods
+def createUserObject(): 
     while True:
         userId   = nextItemId(CSV_User_Path, userFields)
         userName = promptInput("User name: ")
@@ -25,12 +28,14 @@ def createUserObject(): #Creates an instance of the User class, giving access to
         except ValueError as e:
             print(f"\n User creation failed: {e}")
 
+# Adds the created user to the CSV storage
 def addUser(path, headers):
     row = createUserObject()
     appendRow(row, path, headers)
     print("User created")
     return row
 
+# Search the user profiles in the CSV storage by userName or role
 def searchUsers(path, headers):
     print("\n --- Search Users --- \n")
     term = promptInput("Enter search term (userName or role): ").lower()
@@ -49,6 +54,7 @@ def searchUsers(path, headers):
         return
     tabulateData(results)
 
+# Update userName, password or role of an existing user
 def updateUser(path, headers):
     rows = readAll(path, headers)
     tabulateData(rows)
@@ -92,6 +98,7 @@ def updateUser(path, headers):
     else:
         print("\n Invalid ID \n ")   
 
+# Sets up the userName and password check for loginLoop, also establishes a default guest login profile
 def authenticate(username, password):
 
     if username == "" and password == "": #establishes a default account with read access
@@ -100,13 +107,14 @@ def authenticate(username, password):
     rows = readAll(CSV_User_Path, userFields)
     for r in rows:
         if r.get("userName") == username and r.get("password") == password:
-            return User(r["userId"], r["userName"], r["password"], r["role"])
+            return User(r["userId"], r["userName"], r["password"], r["role"]) #Return appropriate user profile if credentials are correct
         
     return None
 
+#Ask the user for username and password details for authentication, if successful the system can be accessed
 def loginLoop():
     count = 0
-    while count < 3:
+    while count < 3: #Stops endless login attempts by giving a max of 3 attempts
         print("Press enter for username and password to log in as a guest")
         count += 1
         username = promptInput("Enter username: ")
