@@ -1,3 +1,5 @@
+#A collection of functions dedicated to operations on inventory items
+
 from .utilityFunctions import *
 from .CSVFunctions import nextItemId, readAll, appendRow, overWriteCSV
 from item import InventoryItem
@@ -7,7 +9,8 @@ from datetime import datetime
 CSV_Inventory_Path = os.path.join(os.path.dirname(__file__), "../CSVFiles/inventory.csv")
 inventoryFields = ["itemId","itemName", "itemQuantity", "category", "status", "dateUpdated", "updatedBy"]
 
-def createItemObject(user): #Creates an instance of the InventoryItem class, giving access to class methods
+#Creates an instance of the InventoryItem class, giving access to class methods
+def createItemObject(user):
     while True:
         itemId   = nextItemId(CSV_Inventory_Path, inventoryFields)
         name     = promptInput("Item name: ")
@@ -20,21 +23,23 @@ def createItemObject(user): #Creates an instance of the InventoryItem class, giv
         try:
             newItem = InventoryItem(itemId, name, quantity, category, status, date, addedBy) #Create an instance of the InventoryItem class
 
-            print(newItem.toDict())
+            print(newItem.toDict()) 
             print("Item Created \n")
 
-            return newItem.toDict()
+            return newItem.toDict() #Output of the function is a dictionary, rather than a strict object, as it's simpler to handle 
         
         except ValueError as e:
             print(f"\n Item creation failed: \n {e}")
 
-def addItem(path, headers, user): #Create an object, takes in user details, adds it to CSV file
+#Create an item, takes in user details for auditing, adds it to CSV file
+def addItem(path, headers, user): 
     row = createItemObject(user)
     print(row)
     appendRow(row, path, headers)
     print("Item added \n")
     return row
 
+#Search the inventory by either itemName or updatedBy, presents matches to terminal
 def searchItems(path, headers):
     print("\n --- Search Items --- \n")
     term = promptInput("Enter search term (itemName or updatedBy): ").lower()
@@ -53,6 +58,7 @@ def searchItems(path, headers):
         return
     tabulateData(results)
 
+# Load an inventory item, pick a property, update it
 def updateItem(path, headers, currentlyLoggedIn):
     rows = readAll(path, headers)
     tabulateData(rows)
@@ -60,7 +66,7 @@ def updateItem(path, headers, currentlyLoggedIn):
 
     for r in rows:
         if r["itemId"] == changeId:
-            tabulateData([r])
+            tabulateData([r]) #highlight selected item for change
             
             while True:
                 print("Please choose the property to update:")
