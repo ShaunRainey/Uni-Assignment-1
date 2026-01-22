@@ -1,3 +1,5 @@
+# Functions to create and add to the logging system
+
 import os
 from .CSVFunctions import nextItemId, appendRow
 from datetime import datetime
@@ -5,6 +7,7 @@ from datetime import datetime
 CSV_Logging_Path = os.path.join(os.path.dirname(__file__), '../CSVFiles/log.csv')
 logFields = ["logId", "userName", "action", "message", "timeStamp"]
 
+#Creates a dictionary to store key information for logging
 def createLog(user, actionCode, target=None):
     actionOptions = {
         1: "add item",
@@ -28,11 +31,13 @@ def createLog(user, actionCode, target=None):
 
     return newLog
 
+# Add a log into the log CSV file
 def addLog(path, headers, user, actionCode, target=None):
     row = createLog(user, actionCode, target)
     appendRow(row, path, headers)
     print("Log added \n")
 
+# Formats the message to be presented in the log depending on which action occurred
 def messageBuilder(userName, actionCode, target=None):
 
     message = ""
