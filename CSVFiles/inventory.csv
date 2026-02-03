@@ -13,5 +13,4 @@ itemId,itemName,itemQuantity,category,status,dateUpdated,updatedBy
 13,Big pen,65,stationery,functional,2026-01-18,Shaun
 14,Small pen,100,stationery,functional,2026-01-18,Shaun
 15,Medium Pen,50,stationery,functional,2026-01-18,Shaun
-18,More pens,0,stationery,functional,2026-01-18,Shaun
-19,Steve,34,Human,faulty,2026-01-20,Shaun
+18,More pens,ThisIsNotAnInt,stationery,functional,2026-02-03,Shaun

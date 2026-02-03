@@ -92,7 +92,8 @@ def main():
                         addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 2, updatedItem)
                     case "5":
                         deletedItem = deleteEntry(CSV_Inventory_Path, inventoryFields)
-                        addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 3, deletedItem)
+                        if deletedItem is not None:
+                            addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 3, deletedItem)
                     case "6":
                         listEntries(CSV_User_Path, userFields)
                         time.sleep(4)
@@ -107,7 +108,8 @@ def main():
                         addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 5, updatedUser)
                     case "10":
                         deletedUser = deleteEntry(CSV_User_Path, userFields)
-                        addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 6, deletedUser)
+                        if deletedUser is not None:
+                            addLog(CSV_Logging_Path, logFields, currentlyLoggedIn, 6, deletedUser)
                     case "11":
                         listEntries(CSV_Logging_Path, logFields)
                         time.sleep(4)
