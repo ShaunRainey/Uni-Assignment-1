@@ -1,0 +1,16 @@
+itemId,itemName,itemQuantity,category,status,dateUpdated,updatedBy
+1,Blue Pen,64,Pens,functional,2025-10-25,Shaun
+2,Black Pen,48,Pens,functional,2025-10-25,Shaun
+3,Red Pen,4,Pens,functional,2025-10-25,Shaun
+4,A4 Notepad,100,Books,functional,2025-10-26,Steve
+5,A5 diary,100,Books,functional,2025-10-26,Steve
+6,Eraser,50,Stationery,functional,2025-10-25,notShaun
+7,30cm Ruler,50,Stationery,functional,2025-10-26,notShaun
+8,Calculator,20,Stationery,functional,2025-10-26,notShaun
+9,Envelope,100,Stationery,functional,2025-10-26,notShaun
+10,pen,5,stationery,functional,2026-01-18,Shaun
+11,steve,1,man,faulty,2026-01-18,Shaun
+13,Big pen,65,stationery,functional,2026-01-18,Shaun
+14,Small pen,100,stationery,functional,2026-01-18,Shaun
+15,Medium Pen,50,stationery,functional,2026-01-18,Shaun
+18,More pens,ThisIsNotAnInt,stationery,functional,2026-02-03,Shaun

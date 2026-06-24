@@ -14,4 +14,3 @@ def test_nextItemId():
     assert len(readAll(CSV_User_Path,userFields)) == 6
     print(f"Next Id to be assigned: {nextItemId(CSV_User_Path,userFields)}")
     assert nextItemId(CSV_User_Path,userFields)
-

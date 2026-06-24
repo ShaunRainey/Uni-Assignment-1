@@ -31,6 +31,10 @@
 
     Enter a key term to search inventory.csv with
 
+3 - View warnings
+
+    View a list of current warnings in the system
+
 ## Write Actions
 
 1 - List Items
@@ -48,6 +52,10 @@
 4 - Update Item
 
     Follow console prompts to update a currently existing item into inventory.csv
+
+5 - View warnings
+
+    View a list of current warnings in the system
 
 ## Admin Actions
 
@@ -90,3 +98,11 @@
 10 - Delete user
 
     Follow console prompts to update an existing user into user.csv
+
+11 - View logs
+
+    View a list of actions performed on the system from various profiles
+
+12 - View warnings
+
+    View a list of current warnings in the system
